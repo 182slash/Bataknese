@@ -1,10 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',  // Changed from 'standalone'
-  trailingSlash: true,
+  reactStrictMode: true,
   images: {
-    unoptimized: true,
+    domains: [
+      'localhost',
+      'btk-failover-duhdi.ondigitalocean.app'
+    ],
   },
-};
+  env: {
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+  }
+}
 
-export default nextConfig;
+module.exports = nextConfig
