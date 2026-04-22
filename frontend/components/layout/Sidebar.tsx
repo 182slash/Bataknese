@@ -19,7 +19,7 @@ const navigation = [
   { name: 'Directory', href: '/directory', icon: Users },
   { name: 'Communities', href: '/community', icon: Building2 },
   { name: 'Messages', href: '/chat', icon: MessageCircle },
-  { name: 'Profile', href: '/profile', icon: User },
+  { name: 'Profile', href: '/dashboard', icon: User },
 ];
 
 export default function Sidebar() {
