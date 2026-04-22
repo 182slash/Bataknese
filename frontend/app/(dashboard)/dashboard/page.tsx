@@ -9,6 +9,31 @@ import { Community, DMRoom } from '@/lib/types';
 import apiClient from '@/lib/api/client';
 import Image from 'next/image';
 
+const glass = {
+  base: {
+    background: 'rgba(255,255,255,0.055)',
+    backdropFilter: 'blur(24px) saturate(150%)',
+    WebkitBackdropFilter: 'blur(24px) saturate(150%)',
+    border: '1px solid rgba(255,255,255,0.10)',
+    boxShadow: '0 4px 32px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08)',
+  } as React.CSSProperties,
+  heavy: {
+    background: 'rgba(255,255,255,0.07)',
+    backdropFilter: 'blur(48px) saturate(180%)',
+    WebkitBackdropFilter: 'blur(48px) saturate(180%)',
+    border: '1px solid rgba(255,255,255,0.13)',
+    boxShadow: '0 8px 48px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.10)',
+  } as React.CSSProperties,
+  row: {
+    background: 'rgba(255,255,255,0.04)',
+    border: '1px solid rgba(255,255,255,0.08)',
+  } as React.CSSProperties,
+  rowHover: {
+    background: 'rgba(255,255,255,0.08)',
+    borderColor: 'rgba(139,0,0,0.50)',
+  } as React.CSSProperties,
+};
+
 export default function DashboardPage() {
   const { user } = useAuthStore();
   const [communities, setCommunities] = useState<Community[]>([]);
@@ -55,28 +80,43 @@ export default function DashboardPage() {
   if (!user) return null;
 
   return (
-    <div className="p-8 space-y-8 animate-fade-in">
+    <div className="p-8 space-y-8" style={{ animation: 'fadeIn 0.4s ease' }}>
 
       {/* ── Welcome Header ─────────────────────────────────────── */}
-      <div className="ulos-border-card">
-        <div className="ulos-border-card-inner p-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="font-cinzel text-4xl font-bold text-white mb-2">
-                Horas, {user.full_name}!
-              </h1>
-              <p className="text-white/50 text-lg">
-                <span className="text-gold">{user.marga}</span> • {user.batak_id_card}
-              </p>
-            </div>
-            <div className="hidden md:block">
-              <div className="w-20 h-20 rounded-full flex items-center justify-center shadow-gold"
-                style={{
-                  background: 'linear-gradient(135deg, #8B0000 0%, #D4AF37 100%)',
-                  boxShadow: '0 0 32px rgba(139,0,0,0.55), 0 0 64px rgba(139,0,0,0.20)',
-                }}>
-                <Crown className="w-10 h-10 text-white" />
-              </div>
+      <div
+        className="rounded-2xl p-8"
+        style={{
+          ...glass.heavy,
+          background: 'rgba(139,0,0,0.10)',
+          backdropFilter: 'blur(48px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(48px) saturate(180%)',
+          border: '1px solid rgba(139,0,0,0.22)',
+          boxShadow: '0 8px 48px rgba(0,0,0,0.65), 0 0 32px rgba(139,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.10)',
+        }}
+      >
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="font-cinzel text-4xl font-bold text-white mb-2">
+              Horas, {user.full_name}!
+            </h1>
+            <p style={{ color: 'rgba(255,255,255,0.50)', fontSize: '1rem' }}>
+              <span style={{ color: '#D4AF37' }}>{user.marga}</span>
+              {' '}•{' '}
+              {user.batak_id_card}
+            </p>
+          </div>
+          <div className="hidden md:block">
+            <div
+              className="w-20 h-20 rounded-full flex items-center justify-center"
+              style={{
+                background: 'linear-gradient(135deg, rgba(139,0,0,0.80) 0%, rgba(212,175,55,0.70) 100%)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                border: '1px solid rgba(212,175,55,0.30)',
+                boxShadow: '0 0 32px rgba(139,0,0,0.55), 0 0 64px rgba(139,0,0,0.20)',
+              }}
+            >
+              <Crown className="w-10 h-10 text-white" />
             </div>
           </div>
         </div>
@@ -84,53 +124,29 @@ export default function DashboardPage() {
 
       {/* ── Stats Grid ─────────────────────────────────────────── */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-        {/* Total Anggota */}
-        <div className="glass card hover:scale-105 transition-transform">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-white/50 text-sm mb-1">Total Anggota</p>
-              <p className="text-3xl font-bold text-white font-cinzel">{stats.total_users.toLocaleString()}</p>
-            </div>
-            <Users className="w-12 h-12 text-primary opacity-60" />
-          </div>
-        </div>
-
-        {/* Komunitas Saya */}
-        <div className="glass card hover:scale-105 transition-transform">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-white/50 text-sm mb-1">Komunitas Saya</p>
-              <p className="text-3xl font-bold text-white font-cinzel">{stats.my_communities}</p>
-            </div>
-            <Building2 className="w-12 h-12 text-gold opacity-60" />
-          </div>
-        </div>
-
-        {/* Pesan Belum Dibaca */}
-        <div className="glass card hover:scale-105 transition-transform">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-white/50 text-sm mb-1">Pesan Belum Dibaca</p>
-              <p className="text-3xl font-bold text-white font-cinzel">{stats.unread_messages}</p>
-            </div>
-            <MessageCircle className="w-12 h-12 text-primary opacity-60" />
-          </div>
-        </div>
-
-        {/* Anggota Sejak */}
-        <div className="glass card hover:scale-105 transition-transform">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-white/50 text-sm mb-1">Anggota Sejak</p>
-              <p className="text-xl font-bold text-white">
-                {new Date(user.created_at).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' })}
-              </p>
-            </div>
-            <Award className="w-12 h-12 text-gold opacity-60" />
-          </div>
-        </div>
-
+        <StatCard
+          label="Total Anggota"
+          value={stats.total_users.toLocaleString()}
+          icon={<Users className="w-11 h-11" style={{ color: 'rgba(185,28,28,0.70)' }} />}
+        />
+        <StatCard
+          label="Komunitas Saya"
+          value={String(stats.my_communities)}
+          icon={<Building2 className="w-11 h-11" style={{ color: 'rgba(212,175,55,0.70)' }} />}
+          gold
+        />
+        <StatCard
+          label="Pesan Belum Dibaca"
+          value={String(stats.unread_messages)}
+          icon={<MessageCircle className="w-11 h-11" style={{ color: 'rgba(185,28,28,0.70)' }} />}
+        />
+        <StatCard
+          label="Anggota Sejak"
+          value={new Date(user.created_at).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' })}
+          icon={<Award className="w-11 h-11" style={{ color: 'rgba(212,175,55,0.70)' }} />}
+          gold
+          small
+        />
       </div>
 
       {/* ── Main Content Grid ───────────────────────────────────── */}
@@ -138,7 +154,7 @@ export default function DashboardPage() {
 
         {/* Left — Batak ID Card */}
         <div className="lg:col-span-1">
-          <div className="glass card">
+          <div className="rounded-2xl p-6" style={glass.base}>
             <h2 className="font-cinzel text-2xl font-bold text-white mb-6">ID Batak Anda</h2>
             <BatakIDCard user={user} />
           </div>
@@ -148,155 +164,134 @@ export default function DashboardPage() {
         <div className="lg:col-span-2 space-y-8">
 
           {/* My Communities */}
-          <div className="glass card">
+          <div className="rounded-2xl p-6" style={glass.base}>
             <div className="flex items-center justify-between mb-6">
               <h2 className="font-cinzel text-2xl font-bold text-white">Komunitas Saya</h2>
               <Link
                 href="/community"
-                className="text-primary-light hover:text-white transition-colors text-sm font-semibold"
+                className="text-sm font-semibold transition-colors"
+                style={{ color: 'rgba(185,28,28,0.90)' }}
+                onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = '#ffffff')}
+                onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'rgba(185,28,28,0.90)')}
               >
                 Lihat Semua →
               </Link>
             </div>
 
             {communities.length === 0 ? (
-              <div className="text-center py-8">
-                <Building2 className="w-16 h-16 text-white/20 mx-auto mb-4" />
-                <p className="text-white/40 mb-6">Anda belum bergabung dengan komunitas apa pun</p>
-                <Link href="/community" className="btn-primary">
-                  Jelajahi Komunitas
-                </Link>
-              </div>
+              <EmptyState
+                icon={<Building2 className="w-16 h-16" style={{ color: 'rgba(255,255,255,0.18)' }} />}
+                message="Anda belum bergabung dengan komunitas apa pun"
+                href="/community"
+                cta="Jelajahi Komunitas"
+              />
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {communities.map((community) => (
-                  <Link
+                  <GlassRow
                     key={community.id}
                     href={`/community/${community.id}`}
-                    className="block p-4 rounded-xl border transition-all group"
-                    style={{
-                      background: 'rgba(255,255,255,0.05)',
-                      borderColor: 'rgba(255,255,255,0.10)',
-                    }}
-                    onMouseEnter={e => {
-                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(139,0,0,0.55)';
-                      (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.08)';
-                    }}
-                    onMouseLeave={e => {
-                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.10)';
-                      (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)';
-                    }}
-                  >
-                    <div className="flex items-center space-x-4">
-                      {community.avatar ? (
-                        <Image
-                          src={community.avatar}
-                          alt={community.name}
-                          width={48}
-                          height={48}
-                          className="rounded-lg"
-                        />
-                      ) : (
-                        <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
-                          style={{ background: 'linear-gradient(135deg, #8B0000, #D4AF37)' }}>
-                          <Building2 className="w-6 h-6 text-white" />
-                        </div>
-                      )}
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-white group-hover:text-primary-light transition-colors">
-                          {community.name}
-                        </h3>
-                        <div className="flex items-center space-x-3 text-sm text-white/40">
-                          <span className="flex items-center">
-                            <Users className="w-4 h-4 mr-1" />
-                            {community.member_count} anggota
+                    avatar={
+                      community.avatar
+                        ? <Image src={community.avatar} alt={community.name} width={48} height={48} className="rounded-lg object-cover w-12 h-12" />
+                        : (
+                          <div
+                            className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
+                            style={{ background: 'linear-gradient(135deg, rgba(139,0,0,0.80), rgba(212,175,55,0.60))' }}
+                          >
+                            <Building2 className="w-6 h-6 text-white" />
+                          </div>
+                        )
+                    }
+                    title={community.name}
+                    meta={
+                      <div className="flex items-center gap-3 text-sm" style={{ color: 'rgba(255,255,255,0.40)' }}>
+                        <span className="flex items-center gap-1">
+                          <Users className="w-3.5 h-3.5" />
+                          {community.member_count} anggota
+                        </span>
+                        {community.role && (
+                          <span
+                            className="text-xs px-2 py-0.5 rounded-full"
+                            style={{
+                              background: 'rgba(212,175,55,0.12)',
+                              border: '1px solid rgba(212,175,55,0.25)',
+                              color: '#E5C453',
+                            }}
+                          >
+                            {community.role}
                           </span>
-                          {community.role && (
-                            <span className="badge badge-gold text-xs">
-                              {community.role}
-                            </span>
-                          )}
-                        </div>
+                        )}
                       </div>
-                    </div>
-                  </Link>
+                    }
+                  />
                 ))}
               </div>
             )}
           </div>
 
           {/* Recent Chats */}
-          <div className="glass card">
+          <div className="rounded-2xl p-6" style={glass.base}>
             <div className="flex items-center justify-between mb-6">
               <h2 className="font-cinzel text-2xl font-bold text-white">Pesan Terbaru</h2>
               <Link
                 href="/chat"
-                className="text-primary-light hover:text-white transition-colors text-sm font-semibold"
+                className="text-sm font-semibold transition-colors"
+                style={{ color: 'rgba(185,28,28,0.90)' }}
+                onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = '#ffffff')}
+                onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'rgba(185,28,28,0.90)')}
               >
                 Lihat Semua →
               </Link>
             </div>
 
             {recentChats.length === 0 ? (
-              <div className="text-center py-8">
-                <MessageCircle className="w-16 h-16 text-white/20 mx-auto mb-4" />
-                <p className="text-white/40 mb-6">Belum ada pesan</p>
-                <Link href="/directory" className="btn-primary">
-                  Cari Anggota
-                </Link>
-              </div>
+              <EmptyState
+                icon={<MessageCircle className="w-16 h-16" style={{ color: 'rgba(255,255,255,0.18)' }} />}
+                message="Belum ada pesan"
+                href="/directory"
+                cta="Cari Anggota"
+              />
             ) : (
               <div className="space-y-3">
                 {recentChats.map((chat) => (
-                  <Link
+                  <GlassRow
                     key={chat.room_id}
                     href={`/chat?room=${chat.room_id}`}
-                    className="block p-3 rounded-xl border transition-all group"
-                    style={{
-                      background: 'rgba(255,255,255,0.05)',
-                      borderColor: 'rgba(255,255,255,0.10)',
-                    }}
-                    onMouseEnter={e => {
-                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(139,0,0,0.55)';
-                      (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.08)';
-                    }}
-                    onMouseLeave={e => {
-                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.10)';
-                      (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)';
-                    }}
-                  >
-                    <div className="flex items-center space-x-3">
-                      {chat.avatar ? (
-                        <Image
-                          src={chat.avatar}
-                          alt={chat.full_name}
-                          width={40}
-                          height={40}
-                          className="rounded-full"
-                        />
-                      ) : (
-                        <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
-                          style={{ background: 'linear-gradient(135deg, #8B0000, #D4AF37)' }}>
-                          <span className="text-white font-semibold text-sm">
-                            {chat.full_name.charAt(0)}
-                          </span>
-                        </div>
-                      )}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between">
-                          <p className="font-semibold text-white truncate group-hover:text-primary-light transition-colors">
-                            {chat.full_name}
-                          </p>
-                          {chat.unread_count > 0 && (
-                            <span className="ml-2 w-5 h-5 bg-primary rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-                              {chat.unread_count}
+                    avatar={
+                      chat.avatar
+                        ? <Image src={chat.avatar} alt={chat.full_name} width={40} height={40} className="rounded-full object-cover w-10 h-10" />
+                        : (
+                          <div
+                            className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                            style={{ background: 'linear-gradient(135deg, rgba(139,0,0,0.80), rgba(212,175,55,0.60))' }}
+                          >
+                            <span className="text-white font-semibold text-sm">
+                              {chat.full_name.charAt(0)}
                             </span>
-                          )}
-                        </div>
-                        <p className="text-sm text-white/40 truncate">{chat.last_message || 'Belum ada pesan'}</p>
-                      </div>
-                    </div>
-                  </Link>
+                          </div>
+                        )
+                    }
+                    title={chat.full_name}
+                    meta={
+                      <p className="text-sm truncate" style={{ color: 'rgba(255,255,255,0.38)' }}>
+                        {chat.last_message || 'Belum ada pesan'}
+                      </p>
+                    }
+                    trailing={
+                      chat.unread_count > 0 ? (
+                        <span
+                          className="w-5 h-5 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
+                          style={{
+                            background: 'rgba(185,28,28,0.85)',
+                            boxShadow: '0 0 10px rgba(139,0,0,0.50)',
+                          }}
+                        >
+                          {chat.unread_count}
+                        </span>
+                      ) : undefined
+                    }
+                  />
                 ))}
               </div>
             )}
@@ -304,6 +299,148 @@ export default function DashboardPage() {
 
         </div>
       </div>
+    </div>
+  );
+}
+
+/* ── Stat Card ─────────────────────────────────────────────────── */
+function StatCard({
+  label,
+  value,
+  icon,
+  gold = false,
+  small = false,
+}: {
+  label: string;
+  value: string;
+  icon: React.ReactNode;
+  gold?: boolean;
+  small?: boolean;
+}) {
+  return (
+    <div
+      className="rounded-2xl p-5 flex items-center justify-between transition-all duration-300"
+      style={{
+        background: gold ? 'rgba(212,175,55,0.06)' : 'rgba(255,255,255,0.055)',
+        backdropFilter: 'blur(24px) saturate(150%)',
+        WebkitBackdropFilter: 'blur(24px) saturate(150%)',
+        border: `1px solid ${gold ? 'rgba(212,175,55,0.16)' : 'rgba(255,255,255,0.10)'}`,
+        boxShadow: '0 4px 32px rgba(0,0,0,0.50), inset 0 1px 0 rgba(255,255,255,0.07)',
+      }}
+      onMouseEnter={e => {
+        const el = e.currentTarget as HTMLDivElement;
+        el.style.transform = 'translateY(-3px)';
+        el.style.boxShadow = gold
+          ? '0 8px 40px rgba(0,0,0,0.60), 0 0 20px rgba(212,175,55,0.18), inset 0 1px 0 rgba(255,255,255,0.10)'
+          : '0 8px 40px rgba(0,0,0,0.60), 0 0 18px rgba(139,0,0,0.20), inset 0 1px 0 rgba(255,255,255,0.10)';
+      }}
+      onMouseLeave={e => {
+        const el = e.currentTarget as HTMLDivElement;
+        el.style.transform = 'translateY(0)';
+        el.style.boxShadow = '0 4px 32px rgba(0,0,0,0.50), inset 0 1px 0 rgba(255,255,255,0.07)';
+      }}
+    >
+      <div>
+        <p className="text-xs mb-1 font-medium tracking-wide" style={{ color: 'rgba(255,255,255,0.42)' }}>
+          {label}
+        </p>
+        <p
+          className={`font-bold text-white font-cinzel ${small ? 'text-xl' : 'text-3xl'}`}
+        >
+          {value}
+        </p>
+      </div>
+      {icon}
+    </div>
+  );
+}
+
+/* ── Glass Row (community / chat item) ─────────────────────────── */
+function GlassRow({
+  href,
+  avatar,
+  title,
+  meta,
+  trailing,
+}: {
+  href: string;
+  avatar: React.ReactNode;
+  title: string;
+  meta: React.ReactNode;
+  trailing?: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      className="flex items-center gap-4 p-3 rounded-xl transition-all duration-200 group"
+      style={{
+        background: 'rgba(255,255,255,0.04)',
+        border: '1px solid rgba(255,255,255,0.08)',
+      }}
+      onMouseEnter={e => {
+        const el = e.currentTarget as HTMLElement;
+        el.style.background = 'rgba(255,255,255,0.08)';
+        el.style.borderColor = 'rgba(139,0,0,0.45)';
+        el.style.boxShadow = '0 0 16px rgba(139,0,0,0.12)';
+      }}
+      onMouseLeave={e => {
+        const el = e.currentTarget as HTMLElement;
+        el.style.background = 'rgba(255,255,255,0.04)';
+        el.style.borderColor = 'rgba(255,255,255,0.08)';
+        el.style.boxShadow = 'none';
+      }}
+    >
+      <div className="flex-shrink-0">{avatar}</div>
+      <div className="flex-1 min-w-0">
+        <p
+          className="font-semibold text-white truncate mb-0.5 transition-colors duration-150 group-hover:text-red-300"
+        >
+          {title}
+        </p>
+        {meta}
+      </div>
+      {trailing && <div className="flex-shrink-0">{trailing}</div>}
+    </Link>
+  );
+}
+
+/* ── Empty State ───────────────────────────────────────────────── */
+function EmptyState({
+  icon,
+  message,
+  href,
+  cta,
+}: {
+  icon: React.ReactNode;
+  message: string;
+  href: string;
+  cta: string;
+}) {
+  return (
+    <div className="text-center py-10">
+      <div className="flex justify-center mb-4">{icon}</div>
+      <p className="mb-6 text-sm" style={{ color: 'rgba(255,255,255,0.35)' }}>{message}</p>
+      <Link
+        href={href}
+        className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-sm font-medium text-white transition-all duration-200"
+        style={{
+          background: 'linear-gradient(135deg, rgba(185,28,28,0.75) 0%, rgba(139,0,0,0.70) 100%)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          border: '1px solid rgba(185,28,28,0.38)',
+          boxShadow: '0 2px 16px rgba(139,0,0,0.28)',
+        }}
+        onMouseEnter={e => {
+          (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 24px rgba(139,0,0,0.50)';
+          (e.currentTarget as HTMLElement).style.transform = 'translateY(-1px)';
+        }}
+        onMouseLeave={e => {
+          (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 16px rgba(139,0,0,0.28)';
+          (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+        }}
+      >
+        {cta}
+      </Link>
     </div>
   );
 }
