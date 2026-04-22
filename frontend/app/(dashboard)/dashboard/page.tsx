@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Users, Building2, MessageCircle, TrendingUp, Award, Crown } from 'lucide-react';
+import { Users, Building2, MessageCircle, Award, Crown } from 'lucide-react';
 import { useAuthStore } from '@/lib/store/authStore';
 import BatakIDCard from '@/components/id-card/BatakIDCard';
 import { Community, DMRoom } from '@/lib/types';
@@ -23,26 +23,23 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Ambil komunitas saya
         const communitiesRes = await apiClient.get('/communities/my');
         if (communitiesRes.data.success) {
           setCommunities(communitiesRes.data.data.slice(0, 4));
         }
 
-        // Ambil chat terbaru
         const chatsRes = await apiClient.get('/chat/dm');
         if (chatsRes.data.success) {
           setRecentChats(chatsRes.data.data.slice(0, 5));
         }
 
-        // Ambil statistik pengguna
         const statsRes = await apiClient.get('/users/stats');
         if (statsRes.data.success) {
           setStats({
             total_users: statsRes.data.data.overview.total_users,
             total_communities: 0,
             my_communities: communitiesRes.data.success ? communitiesRes.data.data.length : 0,
-            unread_messages: chatsRes.data.success 
+            unread_messages: chatsRes.data.success
               ? chatsRes.data.data.reduce((sum: number, chat: DMRoom) => sum + chat.unread_count, 0)
               : 0,
           });
@@ -59,7 +56,8 @@ export default function DashboardPage() {
 
   return (
     <div className="p-8 space-y-8 animate-fade-in">
-      {/* Welcome Header */}
+
+      {/* ── Welcome Header ─────────────────────────────────────── */}
       <div className="ulos-border-card">
         <div className="ulos-border-card-inner p-8">
           <div className="flex items-center justify-between">
@@ -67,89 +65,104 @@ export default function DashboardPage() {
               <h1 className="font-cinzel text-4xl font-bold text-white mb-2">
                 Horas, {user.full_name}!
               </h1>
-              <p className="text-gray-400 text-lg">
+              <p className="text-white/50 text-lg">
                 <span className="text-gold">{user.marga}</span> • {user.batak_id_card}
               </p>
             </div>
             <div className="hidden md:block">
-              <div className="w-20 h-20 bg-gradient-to-br from-primary to-gold rounded-full flex items-center justify-center shadow-gold">
-                < Crown className="w-12 h-12 text-white" />
+              <div className="w-20 h-20 rounded-full flex items-center justify-center shadow-gold"
+                style={{
+                  background: 'linear-gradient(135deg, #8B0000 0%, #D4AF37 100%)',
+                  boxShadow: '0 0 32px rgba(139,0,0,0.55), 0 0 64px rgba(139,0,0,0.20)',
+                }}>
+                <Crown className="w-10 h-10 text-white" />
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Stats Grid */}
+      {/* ── Stats Grid ─────────────────────────────────────────── */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="card hover:scale-105 transition-transform">
+
+        {/* Total Anggota */}
+        <div className="glass card hover:scale-105 transition-transform">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm mb-1">Total Anggota</p>
+              <p className="text-white/50 text-sm mb-1">Total Anggota</p>
               <p className="text-3xl font-bold text-white font-cinzel">{stats.total_users.toLocaleString()}</p>
             </div>
-            <Users className="w-12 h-12 text-primary opacity-50" />
+            <Users className="w-12 h-12 text-primary opacity-60" />
           </div>
         </div>
 
-        <div className="card hover:scale-105 transition-transform">
+        {/* Komunitas Saya */}
+        <div className="glass card hover:scale-105 transition-transform">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm mb-1">Komunitas Saya</p>
+              <p className="text-white/50 text-sm mb-1">Komunitas Saya</p>
               <p className="text-3xl font-bold text-white font-cinzel">{stats.my_communities}</p>
             </div>
-            <Building2 className="w-12 h-12 text-gold opacity-50" />
+            <Building2 className="w-12 h-12 text-gold opacity-60" />
           </div>
         </div>
 
-        <div className="card hover:scale-105 transition-transform">
+        {/* Pesan Belum Dibaca */}
+        <div className="glass card hover:scale-105 transition-transform">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm mb-1">Pesan Belum Dibaca</p>
+              <p className="text-white/50 text-sm mb-1">Pesan Belum Dibaca</p>
               <p className="text-3xl font-bold text-white font-cinzel">{stats.unread_messages}</p>
             </div>
-            <MessageCircle className="w-12 h-12 text-primary opacity-50" />
+            <MessageCircle className="w-12 h-12 text-primary opacity-60" />
           </div>
         </div>
 
-        <div className="card hover:scale-105 transition-transform">
+        {/* Anggota Sejak */}
+        <div className="glass card hover:scale-105 transition-transform">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm mb-1">Anggota Sejak</p>
+              <p className="text-white/50 text-sm mb-1">Anggota Sejak</p>
               <p className="text-xl font-bold text-white">
                 {new Date(user.created_at).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' })}
               </p>
             </div>
-            <Award className="w-12 h-12 text-gold opacity-50" />
+            <Award className="w-12 h-12 text-gold opacity-60" />
           </div>
         </div>
+
       </div>
 
-      {/* Main Content Grid */}
+      {/* ── Main Content Grid ───────────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Column - Batak ID Card */}
+
+        {/* Left — Batak ID Card */}
         <div className="lg:col-span-1">
-          <div className="card">
+          <div className="glass card">
             <h2 className="font-cinzel text-2xl font-bold text-white mb-6">ID Batak Anda</h2>
             <BatakIDCard user={user} />
           </div>
         </div>
 
-        {/* Right Column - Communities & Chats */}
+        {/* Right — Communities & Chats */}
         <div className="lg:col-span-2 space-y-8">
+
           {/* My Communities */}
-          <div className="card">
+          <div className="glass card">
             <div className="flex items-center justify-between mb-6">
               <h2 className="font-cinzel text-2xl font-bold text-white">Komunitas Saya</h2>
-              <Link href="/community" className="text-primary hover:text-primary-light transition-colors text-sm font-semibold">
+              <Link
+                href="/community"
+                className="text-primary-light hover:text-white transition-colors text-sm font-semibold"
+              >
                 Lihat Semua →
               </Link>
             </div>
 
             {communities.length === 0 ? (
               <div className="text-center py-8">
-                <Building2 className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                <p className="text-gray-400 mb-4">Anda belum bergabung dengan komunitas apa pun</p>
+                <Building2 className="w-16 h-16 text-white/20 mx-auto mb-4" />
+                <p className="text-white/40 mb-6">Anda belum bergabung dengan komunitas apa pun</p>
                 <Link href="/community" className="btn-primary">
                   Jelajahi Komunitas
                 </Link>
@@ -160,7 +173,19 @@ export default function DashboardPage() {
                   <Link
                     key={community.id}
                     href={`/community/${community.id}`}
-                    className="block p-4 bg-dark-lighter rounded-lg border border-gray-800 hover:border-primary/50 transition-all group"
+                    className="block p-4 rounded-xl border transition-all group"
+                    style={{
+                      background: 'rgba(255,255,255,0.05)',
+                      borderColor: 'rgba(255,255,255,0.10)',
+                    }}
+                    onMouseEnter={e => {
+                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(139,0,0,0.55)';
+                      (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.08)';
+                    }}
+                    onMouseLeave={e => {
+                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.10)';
+                      (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)';
+                    }}
                   >
                     <div className="flex items-center space-x-4">
                       {community.avatar ? (
@@ -172,15 +197,16 @@ export default function DashboardPage() {
                           className="rounded-lg"
                         />
                       ) : (
-                        <div className="w-12 h-12 bg-gradient-to-br from-primary to-gold rounded-lg flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
+                          style={{ background: 'linear-gradient(135deg, #8B0000, #D4AF37)' }}>
                           <Building2 className="w-6 h-6 text-white" />
                         </div>
                       )}
                       <div className="flex-1">
-                        <h3 className="font-semibold text-white group-hover:text-primary transition-colors">
+                        <h3 className="font-semibold text-white group-hover:text-primary-light transition-colors">
                           {community.name}
                         </h3>
-                        <div className="flex items-center space-x-3 text-sm text-gray-400">
+                        <div className="flex items-center space-x-3 text-sm text-white/40">
                           <span className="flex items-center">
                             <Users className="w-4 h-4 mr-1" />
                             {community.member_count} anggota
@@ -200,18 +226,21 @@ export default function DashboardPage() {
           </div>
 
           {/* Recent Chats */}
-          <div className="card">
+          <div className="glass card">
             <div className="flex items-center justify-between mb-6">
               <h2 className="font-cinzel text-2xl font-bold text-white">Pesan Terbaru</h2>
-              <Link href="/chat" className="text-primary hover:text-primary-light transition-colors text-sm font-semibold">
+              <Link
+                href="/chat"
+                className="text-primary-light hover:text-white transition-colors text-sm font-semibold"
+              >
                 Lihat Semua →
               </Link>
             </div>
 
             {recentChats.length === 0 ? (
               <div className="text-center py-8">
-                <MessageCircle className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                <p className="text-gray-400 mb-4">Belum ada pesan</p>
+                <MessageCircle className="w-16 h-16 text-white/20 mx-auto mb-4" />
+                <p className="text-white/40 mb-6">Belum ada pesan</p>
                 <Link href="/directory" className="btn-primary">
                   Cari Anggota
                 </Link>
@@ -222,7 +251,19 @@ export default function DashboardPage() {
                   <Link
                     key={chat.room_id}
                     href={`/chat?room=${chat.room_id}`}
-                    className="block p-3 bg-dark-lighter rounded-lg border border-gray-800 hover:border-primary/50 transition-all group"
+                    className="block p-3 rounded-xl border transition-all group"
+                    style={{
+                      background: 'rgba(255,255,255,0.05)',
+                      borderColor: 'rgba(255,255,255,0.10)',
+                    }}
+                    onMouseEnter={e => {
+                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(139,0,0,0.55)';
+                      (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.08)';
+                    }}
+                    onMouseLeave={e => {
+                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.10)';
+                      (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)';
+                    }}
                   >
                     <div className="flex items-center space-x-3">
                       {chat.avatar ? (
@@ -234,24 +275,25 @@ export default function DashboardPage() {
                           className="rounded-full"
                         />
                       ) : (
-                        <div className="w-10 h-10 bg-gradient-to-br from-primary to-gold rounded-full flex items-center justify-center">
-                          <span className="text-white font-semibold">
+                        <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                          style={{ background: 'linear-gradient(135deg, #8B0000, #D4AF37)' }}>
+                          <span className="text-white font-semibold text-sm">
                             {chat.full_name.charAt(0)}
                           </span>
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
-                          <p className="font-semibold text-white truncate group-hover:text-primary transition-colors">
+                          <p className="font-semibold text-white truncate group-hover:text-primary-light transition-colors">
                             {chat.full_name}
                           </p>
                           {chat.unread_count > 0 && (
-                            <span className="ml-2 w-5 h-5 bg-primary rounded-full flex items-center justify-center text-white text-xs font-bold">
+                            <span className="ml-2 w-5 h-5 bg-primary rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                               {chat.unread_count}
                             </span>
                           )}
                         </div>
-                        <p className="text-sm text-gray-400 truncate">{chat.last_message || 'Belum ada pesan'}</p>
+                        <p className="text-sm text-white/40 truncate">{chat.last_message || 'Belum ada pesan'}</p>
                       </div>
                     </div>
                   </Link>
@@ -259,6 +301,7 @@ export default function DashboardPage() {
               </div>
             )}
           </div>
+
         </div>
       </div>
     </div>
