@@ -15,13 +15,13 @@ export default function RegisterPage() {
   const [step, setStep] = useState(1);
   const [margaList, setMargaList] = useState<MargaReference>({});
   const [formData, setFormData] = useState({
-    // Step 1: Account
+    // Langkah 1: Akun
     email: '',
     password: '',
     confirmPassword: '',
     full_name: '',
     
-    // Step 2: Personal/Marga
+    // Langkah 2: Pribadi/Marga
     marga: '',
     gender: 'Male' as 'Male' | 'Female' | 'Other',
     date_of_birth: '',
@@ -36,7 +36,7 @@ export default function RegisterPage() {
       router.push('/dashboard');
     }
 
-    // Fetch marga list
+    // Ambil daftar marga
     const fetchMargaList = async () => {
       try {
         const response = await apiClient.get('/auth/marga-list');
@@ -44,7 +44,7 @@ export default function RegisterPage() {
           setMargaList(response.data.data);
         }
       } catch (error) {
-        console.error('Failed to fetch marga list:', error);
+        console.error('Gagal mengambil daftar marga:', error);
       }
     };
     fetchMargaList();
@@ -52,15 +52,15 @@ export default function RegisterPage() {
 
   const validateStep1 = () => {
     if (!formData.email || !formData.password || !formData.full_name) {
-      toast.error('Please fill in all required fields');
+      toast.error('Mohon isi semua kolom yang wajib diisi');
       return false;
     }
     if (formData.password.length < 6) {
-      toast.error('Password must be at least 6 characters');
+      toast.error('Kata sandi minimal harus 6 karakter');
       return false;
     }
     if (formData.password !== formData.confirmPassword) {
-      toast.error('Passwords do not match');
+      toast.error('Kata sandi tidak cocok');
       return false;
     }
     return true;
@@ -68,7 +68,7 @@ export default function RegisterPage() {
 
   const validateStep2 = () => {
     if (!formData.marga || !formData.date_of_birth) {
-      toast.error('Please fill in all required fields');
+      toast.error('Mohon isi semua kolom yang wajib diisi');
       return false;
     }
     return true;
@@ -110,7 +110,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left Side - Branding */}
+      {/* Sisi Kiri - Branding */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-dark via-primary to-gold relative overflow-hidden">
         <div className="absolute inset-0 ulos-pattern opacity-20"></div>
         
@@ -119,15 +119,15 @@ export default function RegisterPage() {
             <div className="w-24 h-24 bg-white/10 backdrop-blur-lg rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-2xl">
               <Crown className="w-14 h-14 text-gold" />
             </div>
-            <h1 className="font-cinzel text-6xl font-bold mb-4">Join Bataknese</h1>
-            <p className="text-2xl font-cinzel text-gold-light">Step {step} of 2</p>
+            <h1 className="font-cinzel text-6xl font-bold mb-4">Gabung Bataknese</h1>
+            <p className="text-2xl font-cinzel text-gold-light">Langkah {step} dari 2</p>
           </div>
 
           <div className="max-w-md space-y-6">
             <p className="text-xl leading-relaxed">
               {step === 1 
-                ? "Create your account and get your exclusive Batak ID Card"
-                : "Tell us more about your Batak heritage and personal details"
+                ? "Buat akun Anda dan dapatkan Kartu Identitas Batak eksklusif Anda"
+                : "Beri tahu kami lebih banyak tentang warisan Batak dan detail pribadi Anda"
               }
             </p>
             
@@ -146,26 +146,26 @@ export default function RegisterPage() {
         </div>
       </div>
 
-      {/* Right Side - Registration Form */}
+      {/* Sisi Kanan - Formulir Pendaftaran */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-dark overflow-y-auto">
         <div className="w-full max-w-md">
-          {/* Mobile Logo */}
+          {/* Logo Mobile */}
           <div className="lg:hidden mb-8 text-center">
             <div className="w-16 h-16 bg-gradient-to-br from-primary to-gold rounded-xl flex items-center justify-center mx-auto mb-4">
               <Crown className="w-10 h-10 text-white" />
             </div>
             <h1 className="font-cinzel text-3xl font-bold text-white">Bataknese</h1>
-            <p className="text-gray-400">Step {step} of 2</p>
+            <p className="text-gray-400">Langkah {step} dari 2</p>
           </div>
 
           <div className="ulos-border-card mb-8">
             <div className="ulos-border-card-inner p-8">
               <div className="text-center mb-8">
                 <h2 className="font-cinzel text-3xl font-bold text-white mb-2">
-                  {step === 1 ? 'Create Account' : 'Personal Details'}
+                  {step === 1 ? 'Buat Akun' : 'Detail Pribadi'}
                 </h2>
                 <p className="text-gray-400">
-                  {step === 1 ? 'Set up your credentials' : 'Complete your profile'}
+                  {step === 1 ? 'Atur kredensial Anda' : 'Lengkapi profil Anda'}
                 </p>
               </div>
 
@@ -174,7 +174,7 @@ export default function RegisterPage() {
                   <>
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Full Name *
+                        Nama Lengkap *
                       </label>
                       <div className="relative">
                         <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
@@ -183,7 +183,7 @@ export default function RegisterPage() {
                           value={formData.full_name}
                           onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
                           className="input-primary pl-12"
-                          placeholder="John Siregar"
+                          placeholder="Contoh: John Siregar"
                           required
                         />
                       </div>
@@ -191,16 +191,16 @@ export default function RegisterPage() {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Email Address *
+                        Alamat Email *
                       </label>
                       <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
+                        <    Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
                         <input
                           type="email"
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           className="input-primary pl-12"
-                          placeholder="your.email@example.com"
+                          placeholder="email.anda@contoh.com"
                           required
                         />
                       </div>
@@ -208,7 +208,7 @@ export default function RegisterPage() {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Password *
+                        Kata Sandi *
                       </label>
                       <div className="relative">
                         <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
@@ -217,7 +217,7 @@ export default function RegisterPage() {
                           value={formData.password}
                           onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                           className="input-primary pl-12"
-                          placeholder="Minimum 6 characters"
+                          placeholder="Minimal 6 karakter"
                           required
                         />
                       </div>
@@ -225,7 +225,7 @@ export default function RegisterPage() {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Confirm Password *
+                        Konfirmasi Kata Sandi *
                       </label>
                       <div className="relative">
                         <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
@@ -234,7 +234,7 @@ export default function RegisterPage() {
                           value={formData.confirmPassword}
                           onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                           className="input-primary pl-12"
-                          placeholder="Confirm your password"
+                          placeholder="Ulangi kata sandi Anda"
                           required
                         />
                       </div>
@@ -244,7 +244,7 @@ export default function RegisterPage() {
                       type="submit"
                       className="btn-primary w-full !py-4 text-lg font-semibold flex items-center justify-center"
                     >
-                      Continue to Personal Details
+                      Lanjut ke Detail Pribadi
                       <ChevronRight className="w-5 h-5 ml-2" />
                     </button>
                   </>
@@ -252,7 +252,7 @@ export default function RegisterPage() {
                   <>
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Marga (Clan) *
+                        Marga *
                       </label>
                       <select
                         value={formData.marga}
@@ -260,7 +260,7 @@ export default function RegisterPage() {
                         className="input-primary"
                         required
                       >
-                        <option value="">Select your marga</option>
+                        <option value="">Pilih marga Anda</option>
                         {Object.entries(margaList).map(([subEthnic, margas]) => (
                           <optgroup key={subEthnic} label={subEthnic}>
                             {margas.map((marga) => (
@@ -275,7 +275,7 @@ export default function RegisterPage() {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Gender *
+                        Jenis Kelamin *
                       </label>
                       <div className="grid grid-cols-3 gap-3">
                         {(['Male', 'Female', 'Other'] as const).map((gender) => (
@@ -289,7 +289,7 @@ export default function RegisterPage() {
                                 : 'border-gray-700 bg-dark-lighter text-gray-400 hover:border-primary/50'
                             }`}
                           >
-                            {gender}
+                            {gender === 'Male' ? 'Laki-laki' : gender === 'Female' ? 'Perempuan' : 'Lainnya'}
                           </button>
                         ))}
                       </div>
@@ -297,7 +297,7 @@ export default function RegisterPage() {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Date of Birth *
+                        Tanggal Lahir *
                       </label>
                       <div className="relative">
                         <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
@@ -313,7 +313,7 @@ export default function RegisterPage() {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Phone Number
+                        Nomor Telepon
                       </label>
                       <div className="relative">
                         <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
@@ -329,7 +329,7 @@ export default function RegisterPage() {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
-                        City
+                        Kota
                       </label>
                       <div className="relative">
                         <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
@@ -345,7 +345,7 @@ export default function RegisterPage() {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Province
+                        Provinsi
                       </label>
                       <input
                         type="text"
@@ -363,7 +363,7 @@ export default function RegisterPage() {
                         className="btn-secondary flex-1 !py-4 text-lg font-semibold flex items-center justify-center"
                       >
                         <ChevronLeft className="w-5 h-5 mr-2" />
-                        Back
+                        Kembali
                       </button>
                       
                       <button
@@ -374,10 +374,10 @@ export default function RegisterPage() {
                         {isLoading ? (
                           <>
                             <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                            Creating...
+                            Memproses...
                           </>
                         ) : (
-                          'Create Account'
+                          'Buat Akun'
                         )}
                       </button>
                     </div>
@@ -389,9 +389,9 @@ export default function RegisterPage() {
 
           <div className="text-center">
             <p className="text-gray-400">
-              Already have an account?{' '}
+              Sudah punya akun?{' '}
               <Link href="/auth/login" className="text-gold hover:text-gold-light font-semibold transition-colors">
-                Sign In
+                Masuk
               </Link>
             </p>
           </div>

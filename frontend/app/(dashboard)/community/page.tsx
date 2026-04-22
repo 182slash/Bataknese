@@ -34,7 +34,7 @@ export default function CommunityPage() {
         setCommunities(response.data.data.communities);
       }
     } catch (error) {
-      console.error('Failed to fetch communities:', error);
+      console.error('Gagal mengambil data komunitas:', error);
     } finally {
       setIsLoading(false);
     }
@@ -45,23 +45,23 @@ export default function CommunityPage() {
     try {
       const response = await apiClient.post('/communities', formData);
       if (response.data.success) {
-        toast.success('Community created successfully!');
+        toast.success('Komunitas berhasil dibuat!');
         setShowCreateModal(false);
         fetchCommunities();
         setFormData({ name: '', description: '', category: '', city: '', province: '' });
       }
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to create community');
+      toast.error(error.response?.data?.message || 'Gagal membuat komunitas');
     }
   };
 
   const handleJoinCommunity = async (communityId: string) => {
     try {
       await apiClient.post(`/communities/${communityId}/join`);
-      toast.success('Joined community successfully!');
+      toast.success('Berhasil bergabung dengan komunitas!');
       fetchCommunities();
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to join community');
+      toast.error(error.response?.data?.message || 'Gagal bergabung dengan komunitas');
     }
   };
 
@@ -70,12 +70,12 @@ export default function CommunityPage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="font-cinzel text-4xl font-bold text-white mb-2">Communities</h1>
-          <p className="text-gray-400">Discover and join Bataknese communities</p>
+          <h1 className="font-cinzel text-4xl font-bold text-white mb-2">Komunitas</h1>
+          <p className="text-gray-400">Temukan dan bergabung dengan komunitas Batak</p>
         </div>
         <button onClick={() => setShowCreateModal(true)} className="btn-gold">
           <Plus className="w-5 h-5 mr-2" />
-          Create Community
+          Buat Komunitas
         </button>
       </div>
 
@@ -88,7 +88,7 @@ export default function CommunityPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="input-primary pl-12"
-            placeholder="Search communities..."
+            placeholder="Cari komunitas..."
           />
         </div>
       </div>
@@ -127,8 +127,10 @@ export default function CommunityPage() {
 
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center text-sm text-gray-400">
-                  <Users className="w-4 h-4 mr-1" />
-                  <span>{community.member_count} members</span>
+                  <span className="flex items-center">
+                    <Users className="w-4 h-4 mr-1" />
+                    {community.member_count} anggota
+                  </span>
                 </div>
                 {community.category && (
                   <span className="badge badge-primary">{community.category}</span>
@@ -140,14 +142,14 @@ export default function CommunityPage() {
                   href={`/community/${community.id}`}
                   className="flex-1 btn-secondary !py-2 text-sm text-center"
                 >
-                  View
+                  Lihat
                 </Link>
                 {!community.role && (
                   <button
                     onClick={() => handleJoinCommunity(community.id)}
                     className="flex-1 btn-primary !py-2 text-sm"
                   >
-                    Join
+                    Gabung
                   </button>
                 )}
               </div>
@@ -162,7 +164,7 @@ export default function CommunityPage() {
           <div className="ulos-border-card max-w-md w-full">
             <div className="ulos-border-card-inner p-8">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="font-cinzel text-2xl font-bold text-white">Create Community</h2>
+                <h2 className="font-cinzel text-2xl font-bold text-white">Buat Komunitas</h2>
                 <button onClick={() => setShowCreateModal(false)} className="text-gray-400 hover:text-white">
                   <X className="w-6 h-6" />
                 </button>
@@ -170,7 +172,7 @@ export default function CommunityPage() {
 
               <form onSubmit={handleCreateCommunity} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Community Name *</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Nama Komunitas *</label>
                   <input
                     type="text"
                     value={formData.name}
@@ -181,7 +183,7 @@ export default function CommunityPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Description</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Deskripsi</label>
                   <textarea
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -191,19 +193,19 @@ export default function CommunityPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Category</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Kategori</label>
                   <input
                     type="text"
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                     className="input-primary"
-                    placeholder="Regional, Business, etc."
+                    placeholder="Regional, Bisnis, dll."
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">City</label>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Kota</label>
                     <input
                       type="text"
                       value={formData.city}
@@ -212,7 +214,7 @@ export default function CommunityPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Province</label>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Provinsi</label>
                     <input
                       type="text"
                       value={formData.province}
@@ -228,10 +230,10 @@ export default function CommunityPage() {
                     onClick={() => setShowCreateModal(false)}
                     className="flex-1 btn-secondary"
                   >
-                    Cancel
+                    Batal
                   </button>
                   <button type="submit" className="flex-1 btn-gold">
-                    Create
+                    Buat
                   </button>
                 </div>
               </form>

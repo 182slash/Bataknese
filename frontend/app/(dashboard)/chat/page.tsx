@@ -41,7 +41,7 @@ export default function ChatPage() {
         setRooms(response.data.data);
       }
     } catch (error) {
-      console.error('Failed to fetch chat rooms:', error);
+      console.error('Gagal mengambil ruang obrolan:', error);
     } finally {
       setIsLoading(false);
     }
@@ -66,15 +66,15 @@ export default function ChatPage() {
 
   return (
     <div className="h-screen flex overflow-hidden">
-      {/* Conversation Sidebar */}
+      {/* Sidebar Percakapan */}
       <div className={`${showSidebar ? 'block' : 'hidden'} lg:block w-full lg:w-96 bg-dark-card border-r border-gray-800 flex flex-col`}>
         {/* Sidebar Header */}
         <div className="p-6 border-b border-gray-800">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="font-cinzel text-2xl font-bold text-white">Messages</h2>
+              <h2 className="font-cinzel text-2xl font-bold text-white">Pesan</h2>
               <p className="text-sm text-gray-400">
-                {totalUnread > 0 ? `${totalUnread} unread` : 'All caught up'}
+                {totalUnread > 0 ? `${totalUnread} belum dibaca` : 'Semua pesan telah dibaca'}
               </p>
             </div>
             {totalUnread > 0 && (
@@ -92,7 +92,7 @@ export default function ChatPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="input-primary pl-12"
-              placeholder="Search conversations..."
+              placeholder="Cari percakapan..."
             />
           </div>
         </div>
@@ -107,10 +107,10 @@ export default function ChatPage() {
             <div className="flex flex-col items-center justify-center py-12 px-6 text-center">
               <MessageCircle className="w-16 h-16 text-gray-600 mb-4" />
               <h3 className="font-cinzel text-lg text-white mb-2">
-                {searchQuery ? 'No results found' : 'No conversations yet'}
+                {searchQuery ? 'Hasil tidak ditemukan' : 'Belum ada percakapan'}
               </h3>
               <p className="text-gray-400 text-sm">
-                {searchQuery ? 'Try a different search' : 'Start a conversation from the directory'}
+                {searchQuery ? 'Coba pencarian yang berbeda' : 'Mulai percakapan melalui direktori anggota'}
               </p>
             </div>
           ) : (
@@ -154,7 +154,7 @@ export default function ChatPage() {
                         <h4 className="font-semibold text-white truncate">{room.full_name}</h4>
                         {room.last_message_time && (
                           <span className="text-xs text-gray-500 ml-2 flex-shrink-0">
-                            {format(new Date(room.last_message_time), 'MMM d')}
+                            {format(new Date(room.last_message_time), 'd MMM')}
                           </span>
                         )}
                       </div>
@@ -175,7 +175,7 @@ export default function ChatPage() {
         </div>
       </div>
 
-      {/* Chat Window */}
+      {/* Jendela Chat */}
       <div className={`${showSidebar ? 'hidden' : 'block'} lg:block flex-1 bg-dark`}>
         <DirectChat 
           room={selectedRoom} 

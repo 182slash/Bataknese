@@ -15,11 +15,11 @@ import {
 import { useAuthStore } from '@/lib/store/authStore';
 
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: Home },
-  { name: 'Directory', href: '/directory', icon: Users },
-  { name: 'Communities', href: '/community', icon: Building2 },
-  { name: 'Messages', href: '/chat', icon: MessageCircle },
-  { name: 'Profile', href: '/dashboard', icon: User },
+  { name: 'Beranda', href: '/dashboard', icon: Home },
+  { name: 'Direktori', href: '/directory', icon: Users },
+  { name: 'Komunitas', href: '/community', icon: Building2 },
+  { name: 'Pesan', href: '/chat', icon: MessageCircle },
+  { name: 'Profil', href: '/dashboard', icon: User },
 ];
 
 export default function Sidebar() {
@@ -38,12 +38,12 @@ export default function Sidebar() {
             <h1 className="font-cinzel text-2xl font-bold text-white group-hover:text-gold transition-colors">
               Bataknese
             </h1>
-            <p className="text-xs text-gray-400 font-inter">Exclusive Community</p>
+            <p className="text-xs text-gray-400 font-inter">Komunitas Eksklusif</p>
           </div>
         </Link>
       </div>
 
-      {/* User Info */}
+      {/* Info Pengguna */}
       {user && (
         <div className="p-6 border-b border-gray-800">
           <div className="flex items-center space-x-3">
@@ -74,7 +74,7 @@ export default function Sidebar() {
         </div>
       )}
 
-      {/* Navigation */}
+      {/* Navigasi */}
       <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
         {navigation.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
@@ -100,18 +100,18 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* Logout Button */}
+      {/* Tombol Keluar */}
       <div className="p-4 border-t border-gray-800">
         <button
           onClick={logout}
           className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-dark-lighter transition-all duration-300 group"
         >
           <LogOut className="w-5 h-5 group-hover:text-primary" />
-          <span className="font-medium">Logout</span>
+          <span className="font-medium">Keluar</span>
         </button>
       </div>
 
-      {/* Ulos Pattern Decoration */}
+      {/* Dekorasi Pola Ulos */}
       <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-gold to-primary opacity-50"></div>
     </aside>
   );

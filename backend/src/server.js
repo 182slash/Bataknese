@@ -16,7 +16,7 @@ const socketHandler = require('./socket/socketHandler');
 const app = express();
 const server = http.createServer(app);
 
-// Initialize Socket.io
+// Initialize Socket.io 
 const io = new Server(server, {
   cors: {
     origin: [

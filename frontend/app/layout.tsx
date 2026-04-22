@@ -17,9 +17,9 @@ const cinzel = Cinzel({
 });
 
 export const metadata: Metadata = {
-  title: "Bataknese - Exclusive Batak Community Platform",
-  description: "Premium social community platform for Bataknese people worldwide",
-  keywords: ["Batak", "Community", "Social Network", "Indonesia", "Ulos"],
+  title: "Bataknese - Platform Komunitas Batak Eksklusif",
+  description: "Platform komunitas sosial premium untuk masyarakat Batak di seluruh dunia",
+  keywords: ["Batak", "Komunitas", "Jejaring Sosial", "Indonesia", "Ulos"],
 };
 
 export default function RootLayout({
@@ -28,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${cinzel.variable}`}>
+    <html lang="id" className={`${inter.variable} ${cinzel.variable}`}>
       <body className="font-inter">
         {children}
         <Toaster 

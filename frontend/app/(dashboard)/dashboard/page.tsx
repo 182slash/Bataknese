@@ -23,19 +23,19 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch my communities
+        // Ambil komunitas saya
         const communitiesRes = await apiClient.get('/communities/my');
         if (communitiesRes.data.success) {
           setCommunities(communitiesRes.data.data.slice(0, 4));
         }
 
-        // Fetch recent chats
+        // Ambil chat terbaru
         const chatsRes = await apiClient.get('/chat/dm');
         if (chatsRes.data.success) {
           setRecentChats(chatsRes.data.data.slice(0, 5));
         }
 
-        // Fetch user stats
+        // Ambil statistik pengguna
         const statsRes = await apiClient.get('/users/stats');
         if (statsRes.data.success) {
           setStats({
@@ -48,7 +48,7 @@ export default function DashboardPage() {
           });
         }
       } catch (error) {
-        console.error('Failed to fetch dashboard data:', error);
+        console.error('Gagal mengambil data dashboard:', error);
       }
     };
 
@@ -73,7 +73,7 @@ export default function DashboardPage() {
             </div>
             <div className="hidden md:block">
               <div className="w-20 h-20 bg-gradient-to-br from-primary to-gold rounded-full flex items-center justify-center shadow-gold">
-                <Crown className="w-12 h-12 text-white" />
+                < Crown className="w-12 h-12 text-white" />
               </div>
             </div>
           </div>
@@ -85,7 +85,7 @@ export default function DashboardPage() {
         <div className="card hover:scale-105 transition-transform">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm mb-1">Total Members</p>
+              <p className="text-gray-400 text-sm mb-1">Total Anggota</p>
               <p className="text-3xl font-bold text-white font-cinzel">{stats.total_users.toLocaleString()}</p>
             </div>
             <Users className="w-12 h-12 text-primary opacity-50" />
@@ -95,7 +95,7 @@ export default function DashboardPage() {
         <div className="card hover:scale-105 transition-transform">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm mb-1">My Communities</p>
+              <p className="text-gray-400 text-sm mb-1">Komunitas Saya</p>
               <p className="text-3xl font-bold text-white font-cinzel">{stats.my_communities}</p>
             </div>
             <Building2 className="w-12 h-12 text-gold opacity-50" />
@@ -105,7 +105,7 @@ export default function DashboardPage() {
         <div className="card hover:scale-105 transition-transform">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm mb-1">Unread Messages</p>
+              <p className="text-gray-400 text-sm mb-1">Pesan Belum Dibaca</p>
               <p className="text-3xl font-bold text-white font-cinzel">{stats.unread_messages}</p>
             </div>
             <MessageCircle className="w-12 h-12 text-primary opacity-50" />
@@ -115,9 +115,9 @@ export default function DashboardPage() {
         <div className="card hover:scale-105 transition-transform">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm mb-1">Member Since</p>
+              <p className="text-gray-400 text-sm mb-1">Anggota Sejak</p>
               <p className="text-xl font-bold text-white">
-                {new Date(user.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                {new Date(user.created_at).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' })}
               </p>
             </div>
             <Award className="w-12 h-12 text-gold opacity-50" />
@@ -130,7 +130,7 @@ export default function DashboardPage() {
         {/* Left Column - Batak ID Card */}
         <div className="lg:col-span-1">
           <div className="card">
-            <h2 className="font-cinzel text-2xl font-bold text-white mb-6">Your Batak ID</h2>
+            <h2 className="font-cinzel text-2xl font-bold text-white mb-6">ID Batak Anda</h2>
             <BatakIDCard user={user} />
           </div>
         </div>
@@ -140,18 +140,18 @@ export default function DashboardPage() {
           {/* My Communities */}
           <div className="card">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="font-cinzel text-2xl font-bold text-white">My Communities</h2>
+              <h2 className="font-cinzel text-2xl font-bold text-white">Komunitas Saya</h2>
               <Link href="/community" className="text-primary hover:text-primary-light transition-colors text-sm font-semibold">
-                View All →
+                Lihat Semua →
               </Link>
             </div>
 
             {communities.length === 0 ? (
               <div className="text-center py-8">
                 <Building2 className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                <p className="text-gray-400 mb-4">You haven't joined any communities yet</p>
+                <p className="text-gray-400 mb-4">Anda belum bergabung dengan komunitas apa pun</p>
                 <Link href="/community" className="btn-primary">
-                  Browse Communities
+                  Jelajahi Komunitas
                 </Link>
               </div>
             ) : (
@@ -183,7 +183,7 @@ export default function DashboardPage() {
                         <div className="flex items-center space-x-3 text-sm text-gray-400">
                           <span className="flex items-center">
                             <Users className="w-4 h-4 mr-1" />
-                            {community.member_count} members
+                            {community.member_count} anggota
                           </span>
                           {community.role && (
                             <span className="badge badge-gold text-xs">
@@ -202,18 +202,18 @@ export default function DashboardPage() {
           {/* Recent Chats */}
           <div className="card">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="font-cinzel text-2xl font-bold text-white">Recent Messages</h2>
+              <h2 className="font-cinzel text-2xl font-bold text-white">Pesan Terbaru</h2>
               <Link href="/chat" className="text-primary hover:text-primary-light transition-colors text-sm font-semibold">
-                View All →
+                Lihat Semua →
               </Link>
             </div>
 
             {recentChats.length === 0 ? (
               <div className="text-center py-8">
                 <MessageCircle className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                <p className="text-gray-400 mb-4">No messages yet</p>
+                <p className="text-gray-400 mb-4">Belum ada pesan</p>
                 <Link href="/directory" className="btn-primary">
-                  Find Members
+                  Cari Anggota
                 </Link>
               </div>
             ) : (
@@ -251,7 +251,7 @@ export default function DashboardPage() {
                             </span>
                           )}
                         </div>
-                        <p className="text-sm text-gray-400 truncate">{chat.last_message || 'No messages yet'}</p>
+                        <p className="text-sm text-gray-400 truncate">{chat.last_message || 'Belum ada pesan'}</p>
                       </div>
                     </div>
                   </Link>

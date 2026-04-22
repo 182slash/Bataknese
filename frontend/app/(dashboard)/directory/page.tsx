@@ -45,7 +45,7 @@ export default function DirectoryPage() {
         setMargaList(response.data.data);
       }
     } catch (error) {
-      console.error('Failed to fetch marga list:', error);
+      console.error('Gagal mengambil daftar marga:', error);
     }
   };
 
@@ -63,8 +63,8 @@ export default function DirectoryPage() {
         setPagination(response.data.data.pagination);
       }
     } catch (error) {
-      console.error('Failed to fetch users:', error);
-      toast.error('Failed to load users');
+      console.error('Gagal mengambil data anggota:', error);
+      toast.error('Gagal memuat anggota');
     } finally {
       setIsLoading(false);
     }
@@ -97,17 +97,17 @@ export default function DirectoryPage() {
         window.location.href = `/chat?room=${response.data.data.room.id}`;
       }
     } catch (error) {
-      toast.error('Failed to create chat');
+      toast.error('Gagal membuat chat');
     }
   };
 
   return (
     <div className="flex h-screen overflow-hidden">
-      {/* Filter Sidebar */}
+      {/* Sidebar Filter */}
       <div className={`${showFilters ? 'block' : 'hidden'} md:block w-80 bg-dark-card border-r border-gray-800 overflow-y-auto`}>
         <div className="p-6 border-b border-gray-800">
           <div className="flex items-center justify-between mb-2">
-            <h2 className="font-cinzel text-2xl font-bold text-white">Filters</h2>
+            <h2 className="font-cinzel text-2xl font-bold text-white">Filter</h2>
             <button
               onClick={() => setShowFilters(false)}
               className="md:hidden text-gray-400 hover:text-white"
@@ -115,18 +115,18 @@ export default function DirectoryPage() {
               <X className="w-5 h-5" />
             </button>
           </div>
-          <p className="text-sm text-gray-400">Search and filter members</p>
+          <p className="text-sm text-gray-400">Cari dan filter anggota</p>
         </div>
 
         <div className="p-6 space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Name</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Nama</label>
             <input
               type="text"
               value={filters.name}
               onChange={(e) => setFilters({ ...filters, name: e.target.value })}
               className="input-primary"
-              placeholder="Search by name..."
+              placeholder="Cari berdasarkan nama..."
             />
           </div>
 
@@ -137,7 +137,7 @@ export default function DirectoryPage() {
               onChange={(e) => setFilters({ ...filters, marga: e.target.value })}
               className="input-primary"
             >
-              <option value="">All Marga</option>
+              <option value="">Semua Marga</option>
               {Object.entries(margaList).map(([subEthnic, margas]) => (
                 <optgroup key={subEthnic} label={subEthnic}>
                   {margas.map((marga) => (
@@ -151,21 +151,21 @@ export default function DirectoryPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Gender</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Jenis Kelamin</label>
             <select
               value={filters.gender}
               onChange={(e) => setFilters({ ...filters, gender: e.target.value })}
               className="input-primary"
             >
-              <option value="">All Genders</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
+              <option value="">Semua Jenis Kelamin</option>
+              <option value="Male">Laki-laki</option>
+              <option value="Female">Perempuan</option>
+              <option value="Other">Lainnya</option>
             </select>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Age Range</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Rentang Usia</label>
             <div className="grid grid-cols-2 gap-3">
               <input
                 type="number"
@@ -179,40 +179,40 @@ export default function DirectoryPage() {
                 value={filters.max_age || ''}
                 onChange={(e) => setFilters({ ...filters, max_age: e.target.value ? parseInt(e.target.value) : undefined })}
                 className="input-primary"
-                placeholder="Max"
+                placeholder="Maks"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">City</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Kota</label>
             <input
               type="text"
               value={filters.city}
               onChange={(e) => setFilters({ ...filters, city: e.target.value })}
               className="input-primary"
-              placeholder="Jakarta, Medan, etc."
+              placeholder="Jakarta, Medan, dll."
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Province</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Provinsi</label>
             <input
               type="text"
               value={filters.province}
               onChange={(e) => setFilters({ ...filters, province: e.target.value })}
               className="input-primary"
-              placeholder="DKI Jakarta, etc."
+              placeholder="DKI Jakarta, dll."
             />
           </div>
 
           <div className="space-y-3">
             <button onClick={handleSearch} className="btn-primary w-full">
               <Search className="w-4 h-4 mr-2 inline" />
-              Apply Filters
+              Terapkan Filter
             </button>
             <button onClick={handleReset} className="btn-secondary w-full">
-              Reset Filters
+              Atur Ulang Filter
             </button>
           </div>
         </div>
@@ -224,9 +224,9 @@ export default function DirectoryPage() {
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="font-cinzel text-4xl font-bold text-white mb-2">Member Directory</h1>
+              <h1 className="font-cinzel text-4xl font-bold text-white mb-2">Direktori Anggota</h1>
               <p className="text-gray-400">
-                {pagination.total} members found
+                {pagination.total} anggota ditemukan
               </p>
             </div>
             <button
@@ -234,7 +234,7 @@ export default function DirectoryPage() {
               className="md:hidden btn-secondary"
             >
               <Filter className="w-5 h-5 mr-2" />
-              Filters
+              Filter
             </button>
           </div>
 
@@ -252,10 +252,10 @@ export default function DirectoryPage() {
           ) : users.length === 0 ? (
             <div className="text-center py-16">
               <UserIcon className="w-20 h-20 text-gray-600 mx-auto mb-4" />
-              <h3 className="font-cinzel text-2xl text-white mb-2">No members found</h3>
-              <p className="text-gray-400 mb-6">Try adjusting your filters</p>
+              <h3 className="font-cinzel text-2xl text-white mb-2">Anggota tidak ditemukan</h3>
+              <p className="text-gray-400 mb-6">Coba sesuaikan filter Anda</p>
               <button onClick={handleReset} className="btn-primary">
-                Reset Filters
+                Atur Ulang Filter
               </button>
             </div>
           ) : (
@@ -296,14 +296,14 @@ export default function DirectoryPage() {
                           href={`/profile/${user.id}`}
                           className="flex-1 btn-secondary !py-2 text-sm"
                         >
-                          View Profile
+                          Lihat Profil
                         </Link>
                         <button
                           onClick={() => createDMRoom(user.id)}
                           className="flex-1 btn-primary !py-2 text-sm"
                         >
                           <MessageCircle className="w-4 h-4 mr-1 inline" />
-                          Message
+                          Pesan
                         </button>
                       </div>
                     </div>
@@ -319,17 +319,17 @@ export default function DirectoryPage() {
                     disabled={pagination.page === 1}
                     className="btn-secondary disabled:opacity-50"
                   >
-                    Previous
+                    Sebelumnya
                   </button>
                   <span className="text-gray-400">
-                    Page {pagination.page} of {pagination.totalPages}
+                    Halaman {pagination.page} dari {pagination.totalPages}
                   </span>
                   <button
                     onClick={() => setFilters({ ...filters, page: filters.page! + 1 })}
                     disabled={pagination.page === pagination.totalPages}
                     className="btn-secondary disabled:opacity-50"
                   >
-                    Next
+                    Selanjutnya
                   </button>
                 </div>
               )}

@@ -38,7 +38,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             isAuthenticated: true 
           });
         } catch (error) {
-          console.error('Failed to parse user data:', error);
+          console.error('Gagal mengurai data pengguna:', error);
           localStorage.removeItem('token');
           localStorage.removeItem('user');
         }
@@ -66,7 +66,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           isLoading: false 
         });
         
-        toast.success('Login successful!');
+        toast.success('Login berhasil!');
         return true;
       }
       
@@ -74,7 +74,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       return false;
     } catch (error: any) {
       set({ isLoading: false });
-      const message = error.response?.data?.message || 'Login failed';
+      const message = error.response?.data?.message || 'Login gagal';
       toast.error(message);
       return false;
     }
@@ -100,7 +100,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           isLoading: false 
         });
         
-        toast.success('Registration successful!');
+        toast.success('Pendaftaran berhasil!');
         return true;
       }
       
@@ -108,7 +108,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       return false;
     } catch (error: any) {
       set({ isLoading: false });
-      const message = error.response?.data?.message || 'Registration failed';
+      const message = error.response?.data?.message || 'Pendaftaran gagal';
       toast.error(message);
       return false;
     }
@@ -121,7 +121,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       token: null, 
       isAuthenticated: false 
     });
-    toast.success('Logged out successfully');
+    toast.success('Berhasil keluar');
     
     if (typeof window !== 'undefined') {
       window.location.href = '/auth/login';
@@ -146,7 +146,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           isLoading: false 
         });
         
-        toast.success('Profile updated successfully!');
+        toast.success('Profil berhasil diperbarui!');
         return true;
       }
       
@@ -154,7 +154,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       return false;
     } catch (error: any) {
       set({ isLoading: false });
-      const message = error.response?.data?.message || 'Update failed';
+      const message = error.response?.data?.message || 'Pembaruan gagal';
       toast.error(message);
       return false;
     }
